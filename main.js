@@ -30,8 +30,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     recommendBtn.addEventListener('click', () => {
+        dinnerRecommendationContainer.innerHTML = ''; // 이전 내용 지우기
         const randomIndex = Math.floor(Math.random() * dinnerMenus.length);
         const selectedMenu = dinnerMenus[randomIndex];
-        dinnerRecommendationContainer.textContent = selectedMenu;
+        
+        if (selectedMenu === 'Pizza') {
+            const pizzaImage = document.createElement('img');
+            pizzaImage.src = 'pizza.jpg';
+            pizzaImage.alt = 'Pizza';
+            pizzaImage.classList.add('dinner-image');
+            dinnerRecommendationContainer.appendChild(pizzaImage);
+        } else {
+            dinnerRecommendationContainer.textContent = selectedMenu;
+        }
     });
 });

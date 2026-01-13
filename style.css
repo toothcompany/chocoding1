@@ -83,3 +83,9 @@ h1 {
     background-color: #004494;
     transform: translateY(0);
 }
+
+.dinner-image {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 10px;
+}
