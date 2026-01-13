@@ -4,94 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-2305064076203490">
-    <title>Pet Classifier - Dog vs Cat</title>
+    <meta name="description" content="AI 펫 분류기 - 웹캠으로 실시간 강아지와 고양이를 구분하는 Teachable Machine 기반 서비스">
+    <title>AI 펫 분류기 - ChoCoding</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2305064076203490"
          crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .classifier-container {
-            text-align: center;
-            padding: 20px;
-        }
-        #webcam-container {
-            margin: 20px auto;
-            border-radius: 10px;
-            overflow: hidden;
-            display: inline-block;
-        }
-        #webcam-container canvas {
-            border-radius: 10px;
-        }
-        #label-container {
-            margin: 20px auto;
-            max-width: 400px;
-        }
-        .prediction-bar {
-            margin: 10px 0;
-            text-align: left;
-        }
-        .prediction-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .bar-container {
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 30px;
-        }
-        .bar-fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.2s ease;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            color: white;
-            font-weight: bold;
-        }
-        .bar-dog {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-        }
-        .bar-cat {
-            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
-        }
-        #start-btn {
-            font-size: 1.2rem;
-            padding: 15px 40px;
-            margin: 20px;
-        }
-        .result-emoji {
-            font-size: 4rem;
-            margin: 20px;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #667eea;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <div class="container classifier-container">
-        <h1>🐕 Dog vs Cat Classifier 🐈</h1>
-        <p>Use your webcam to classify pets in real-time!</p>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ChoCoding</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pet-classifier.html" class="active">Pet Classifier</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+            <button id="theme-toggle-btn" aria-label="Toggle dark mode">🌙</button>
+        </div>
+    </nav>
 
-        <button id="start-btn" onclick="init()">Start Camera</button>
+    <!-- Hero Section -->
+    <section class="hero hero-small">
+        <div class="container">
+            <h1>🐕 AI 펫 분류기 🐈</h1>
+            <p class="hero-subtitle">웹캠으로 실시간 강아지/고양이 분류</p>
+        </div>
+    </section>
 
-        <div id="result-emoji" class="result-emoji"></div>
-        <div id="webcam-container"></div>
-        <div id="label-container"></div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="container content-section classifier-section">
+            <h2>실시간 분류 시작하기</h2>
+            <p class="section-description">
+                아래 버튼을 클릭하면 웹캠이 활성화되고, AI가 실시간으로 강아지와 고양이를 구분합니다.
+                반려동물이나 사진을 카메라에 비춰보세요!
+            </p>
 
-        <a href="index.html" class="back-link">← Back to Home</a>
-    </div>
+            <button id="start-btn" class="cta-button" onclick="init()">카메라 시작하기</button>
 
+            <div id="result-emoji" class="result-emoji"></div>
+            <div id="webcam-container" class="webcam-container"></div>
+            <div id="label-container" class="label-container"></div>
+        </section>
+
+        <section class="container content-section">
+            <h2>📖 사용 방법</h2>
+            <div class="how-to-use">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h4>카메라 권한 허용</h4>
+                        <p>"카메라 시작하기" 버튼을 클릭하고 브라우저에서 카메라 권한을 허용해주세요.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h4>반려동물 비추기</h4>
+                        <p>강아지나 고양이를 웹캠에 비춰주세요. 사진이나 영상도 가능합니다.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <h4>결과 확인</h4>
+                        <p>AI가 실시간으로 분석하여 강아지인지 고양이인지 확률과 함께 알려드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container content-section">
+            <h2>🤖 기술 정보</h2>
+            <p class="section-description">
+                이 펫 분류기는 다음 기술들을 사용하여 구현되었습니다:
+            </p>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <strong>Teachable Machine</strong>
+                    <p>Google의 머신러닝 학습 플랫폼으로 강아지/고양이 이미지를 학습시켰습니다.</p>
+                </div>
+                <div class="tech-item">
+                    <strong>TensorFlow.js</strong>
+                    <p>브라우저에서 직접 머신러닝 추론을 실행하여 서버 없이도 빠르게 분류합니다.</p>
+                </div>
+                <div class="tech-item">
+                    <strong>WebRTC</strong>
+                    <p>웹 브라우저의 카메라 API를 활용하여 실시간 영상을 캡처합니다.</p>
+                </div>
+                <div class="tech-item">
+                    <strong>개인정보 보호</strong>
+                    <p>모든 처리는 브라우저에서 이루어지며, 영상이 서버로 전송되지 않습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container content-section">
+            <h2>❓ 자주 묻는 질문</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h4>Q: 웹캠이 작동하지 않아요</h4>
+                    <p>A: 브라우저 설정에서 카메라 권한이 허용되어 있는지 확인해주세요. Chrome, Firefox, Safari 등 최신 브라우저를 사용하시기 바랍니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Q: 분류 정확도는 얼마나 되나요?</h4>
+                    <p>A: 학습 데이터에 따라 다르지만, 일반적인 강아지와 고양이 사진에 대해 높은 정확도를 보입니다. 70% 이상의 신뢰도일 때 결과를 표시합니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Q: 내 영상이 저장되나요?</h4>
+                    <p>A: 아니요. 모든 처리는 사용자의 브라우저에서만 이루어지며, 영상이나 이미지가 서버로 전송되거나 저장되지 않습니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Q: 모바일에서도 사용할 수 있나요?</h4>
+                    <p>A: 네, 모바일 브라우저에서도 카메라 권한을 허용하면 사용할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>ChoCoding</h4>
+                <p>AI 기반 추천 서비스를 제공하는 개인 프로젝트입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h4>서비스</h4>
+                <ul>
+                    <li><a href="index.html">저녁 메뉴 추천</a></li>
+                    <li><a href="pet-classifier.html">펫 분류기</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>정보</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">개인정보처리방침</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ChoCoding. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
     <script>
         const URL = "https://teachablemachine.withgoogle.com/models/E-2fFYAJ2/";
 
@@ -99,7 +161,7 @@
 
         async function init() {
             const startBtn = document.getElementById("start-btn");
-            startBtn.textContent = "Loading...";
+            startBtn.textContent = "로딩 중...";
             startBtn.disabled = true;
 
             const modelURL = URL + "model.json";
@@ -150,7 +212,7 @@
                 }
 
                 const barClass = i === 0 ? "bar-dog" : "bar-cat";
-                const label = i === 0 ? "🐕 Dog" : "🐈 Cat";
+                const label = i === 0 ? "🐕 강아지" : "🐈 고양이";
 
                 labelContainer.children[i].innerHTML = `
                     <div class="prediction-label">${label}</div>
