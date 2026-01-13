@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generate-btn');
-    const lottoNumbersContainer = document.getElementById('lotto-numbers');
+    const recommendBtn = document.getElementById('recommend-btn');
+    const dinnerRecommendationContainer = document.getElementById('dinner-recommendation');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const body = document.body;
+
+    const dinnerMenus = ['치킨', '피자', '삼겹살', '초밥', '파스타', '떡볶이', '김치찌개', '된장찌개', '족발', '보쌈'];
 
     // 테마 설정 및 localStorage에서 불러오기
     const currentTheme = localStorage.getItem('theme');
@@ -27,30 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', newTheme);
     });
 
-    generateBtn.addEventListener('click', () => {
-        lottoNumbersContainer.innerHTML = '';
-        const numbers = new Set();
-        while (numbers.size < 6) {
-            const randomNumber = Math.floor(Math.random() * 45) + 1;
-            numbers.add(randomNumber);
-        }
-
-        const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
-
-        sortedNumbers.forEach(number => {
-            const numberElement = document.createElement('div');
-            numberElement.classList.add('lotto-number'); // 'number' -> 'lotto-number'로 수정
-            numberElement.textContent = number;
-            numberElement.style.backgroundColor = getNumberColor(number);
-            lottoNumbersContainer.appendChild(numberElement);
-        });
+    recommendBtn.addEventListener('click', () => {
+        const randomIndex = Math.floor(Math.random() * dinnerMenus.length);
+        const selectedMenu = dinnerMenus[randomIndex];
+        dinnerRecommendationContainer.textContent = selectedMenu;
     });
-
-    function getNumberColor(number) {
-        if (number <= 10) return '#fbc400'; // Yellow
-        if (number <= 20) return '#69c8f2'; // Blue
-        if (number <= 30) return '#ff7272'; // Red
-        if (number <= 40) return '#aaa'; // Gray
-        return '#b0d840'; // Green
-    }
 });

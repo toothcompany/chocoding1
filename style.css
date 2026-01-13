@@ -52,31 +52,18 @@ h1 {
     margin-bottom: 20px;
 }
 
-.lotto-numbers {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-    min-height: 50px;
-}
-
-.lotto-number {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+.dinner-recommendation {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    gap: 10px;
+    margin-bottom: 30px;
+    min-height: 50px;
+    font-size: 28px;
     font-weight: bold;
-    color: white;
-    background-color: #4CAF50; /* Default color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
 }
 
-#generate-btn {
+#recommend-btn {
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     border: none;
@@ -87,12 +74,12 @@ h1 {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-#generate-btn:hover {
+#recommend-btn:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
 }
 
-#generate-btn:active {
+#recommend-btn:active {
     background-color: #004494;
     transform: translateY(0);
 }
