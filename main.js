@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const body = document.body;
 
-    const dinnerMenus = ['치킨', '피자', '삼겹살', '초밥', '파스타', '떡볶이', '김치찌개', '된장찌개', '족발', '보쌈'];
+    const dinnerMenus = ['Chicken', 'Pizza', 'Pork Belly', 'Sushi', 'Pasta', 'Tteokbokki', 'Kimchi Stew', 'Soybean Paste Stew', 'Jokbal', 'Bossam'];
 
     // 테마 설정 및 localStorage에서 불러오기
     const currentTheme = localStorage.getItem('theme');
