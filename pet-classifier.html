@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Classifier - Dog vs Cat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .classifier-container {
+            text-align: center;
+            padding: 20px;
+        }
+        #webcam-container {
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+        }
+        #webcam-container canvas {
+            border-radius: 10px;
+        }
+        #label-container {
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        .prediction-bar {
+            margin: 10px 0;
+            text-align: left;
+        }
+        .prediction-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .bar-container {
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 30px;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .bar-dog {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+        .bar-cat {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+        #start-btn {
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            margin: 20px;
+        }
+        .result-emoji {
+            font-size: 4rem;
+            margin: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container classifier-container">
+        <h1>🐕 Dog vs Cat Classifier 🐈</h1>
+        <p>Use your webcam to classify pets in real-time!</p>
+
+        <button id="start-btn" onclick="init()">Start Camera</button>
+
+        <div id="result-emoji" class="result-emoji"></div>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        const URL = "https://teachablemachine.withgoogle.com/models/E-2fFYAJ2/";
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        async function init() {
+            const startBtn = document.getElementById("start-btn");
+            startBtn.textContent = "Loading...";
+            startBtn.disabled = true;
+
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            const flip = true;
+            webcam = new tmImage.Webcam(400, 400, flip);
+            await webcam.setup();
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const div = document.createElement("div");
+                div.className = "prediction-bar";
+                labelContainer.appendChild(div);
+            }
+
+            startBtn.style.display = "none";
+        }
+
+        async function loop() {
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            const resultEmoji = document.getElementById("result-emoji");
+
+            let maxProb = 0;
+            let maxClass = "";
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const className = prediction[i].className;
+                const probability = prediction[i].probability;
+                const percent = (probability * 100).toFixed(1);
+
+                if (probability > maxProb) {
+                    maxProb = probability;
+                    maxClass = className;
+                }
+
+                const barClass = i === 0 ? "bar-dog" : "bar-cat";
+                const label = i === 0 ? "🐕 Dog" : "🐈 Cat";
+
+                labelContainer.children[i].innerHTML = `
+                    <div class="prediction-label">${label}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill ${barClass}" style="width: ${percent}%">
+                            ${percent}%
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (maxProb > 0.7) {
+                resultEmoji.textContent = maxClass.toLowerCase().includes("1") ? "🐕" : "🐈";
+            } else {
+                resultEmoji.textContent = "🤔";
+            }
+        }
+    </script>
+</body>
+</html>

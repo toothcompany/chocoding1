@@ -155,3 +155,21 @@ h1 {
     background-color: #004494;
     transform: translateY(0);
 }
+
+/* Pet Classifier Link */
+.pet-classifier-link {
+    display: block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #f59e0b, #8b5cf6);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pet-classifier-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
