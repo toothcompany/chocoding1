@@ -1,25 +1,54 @@
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg-color: white;
+    --text-color: #333;
+    --button-bg-color: #007bff;
+    --button-text-color: white;
+}
+
+body[data-theme='dark'] {
+    --bg-color: #1a1a1a;
+    --container-bg-color: #2c2c2c;
+    --text-color: #f0f2f5;
+    --button-bg-color: #0056b3;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
-    background-color: white;
+    background-color: var(--container-bg-color);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 90%;
     max-width: 500px;
+    position: relative;
+}
+
+#theme-toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
 }
 
 h1 {
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
@@ -48,8 +77,8 @@ h1 {
 }
 
 #generate-btn {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     border: none;
     padding: 15px 30px;
     font-size: 18px;
